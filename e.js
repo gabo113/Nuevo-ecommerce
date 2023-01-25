@@ -93,6 +93,7 @@ const productos = [
 const contenedorProductos = document.querySelector("#contenedor-productos")
 const botonesCategorias = document.querySelectorAll(".boton-categoria")
 const tituloPrincipal = document.querySelector("#titulo-principal")
+let botonesAgregar =document.querySelectorAll(".producto-agregar")
 
 function cargarProductos(productosElegidos) {
 
@@ -111,6 +112,8 @@ function cargarProductos(productosElegidos) {
         `
         contenedorProductos.append(div)
     })
+    actualizarBotonesAgregar()
+    console.log(botonesAgregar)
 }
 
 cargarProductos(productos)
@@ -132,4 +135,13 @@ botonesCategorias.forEach(boton => {
     }
 
     })
-})
+});
+
+function actualizarBotonesAgregar() {
+    botonesAgregar = document.querySelectorAll(".producto-agregar")
+
+    botonesAgregar.forEach(boton => {
+        boton.addEventListener("click", agregarAlCarrito);
+    });
+}
+
