@@ -58,7 +58,7 @@ const productos = [
         {
             id: "Queso-06",
             titulo: "Queso de oveja",
-            imagen: "./img/productos-destacados/quesodeovejalacollada.jpg",
+            imagen: "./img/destacados/quesodeovejalacollada.jpg",
             categoria: {
                 nombre: "Productos destacados",
                 id: "productos-destacados"
@@ -69,7 +69,7 @@ const productos = [
         {
             id: "Queso-07",
             titulo: "Queso tres leches",
-            imagen: "./img/productos-destacados/quesomadurotresleches.jpg",
+            imagen: "./img/destacados/quesomadurotresleches.jpg",
             categoria: {
                 nombre: "Productos destacados",
                 id: "productos-destacados"
@@ -80,7 +80,7 @@ const productos = [
         {
             id: "Queso-08",
             titulo: "Queso rojo cabra",
-            imagen: "./img/productos-destacados/quesorojocabra.jpg",
+            imagen: "./img/destacados/quesorojocabra.jpg",
             categoria: {
                 nombre: "Productos destacados",
                 id: "productos-destacados"
@@ -91,11 +91,14 @@ const productos = [
 ];
 
 const contenedorProductos = document.querySelector("#contenedor-productos")
-/*const botonesCategorias = document.querySelectorAll(".boton-categorias");*/
+const botonesCategorias = document.querySelectorAll(".boton-categoria")
+const tituloPrincipal = document.querySelector("#titulo-principal")
 
-function cargarProductos() {
+function cargarProductos(productosElegidos) {
 
-    productos.forEach(producto => {
+    contenedorProductos.innerHTML = ''
+
+    productosElegidos.forEach(producto => {
         const div =document.createElement("div")
         div.classList.add("producto")
         div.innerHTML = `
@@ -106,8 +109,27 @@ function cargarProductos() {
            <button class="producto-agregar" id="${producto.id}"></i>Agregrar</button>
         </div>
         `
-        contenedorProductos.append(div);
+        contenedorProductos.append(div)
     })
 }
 
-cargarProductos()
+cargarProductos(productos)
+
+botonesCategorias.forEach(boton => {
+    boton.addEventListener("click", (e) => {
+    
+        botonesCategorias.forEach(boton => boton.classList.remove("active"))
+        e.currentTarget.classList.add("active")
+        
+        if (e.currentTarget.id != "todos") {
+            const productoCategoria = productos.find(producto => producto.categoria.id === e.currentTarget.id);
+            tituloPrincipal.innerText = productoCategoria.categoria.nombre;
+            const productosBoton = productos.filter(producto => producto.categoria.id === e.currentTarget.id);
+            cargarProductos(productosBoton);
+        } else {
+            tituloPrincipal.innerText = "Todos los productos";
+            cargarProductos(productos);
+    }
+
+    })
+})
